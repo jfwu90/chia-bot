@@ -88,6 +88,25 @@ async function getChia(receiveAddress) {
   }
 }
 
+async function getUserList() {
+  const db = await getDb();
+  const list = {};
+
+  Object.values(db).forEach((value) => {
+    list[`${value.author.username}#${value.author.discriminator}`] = value.receiveAddress;
+  });
+
+  if (Object.keys(list).length === 0) {
+    return 'No users stored.';
+  }
+
+  return [
+    '```',
+    JSON.stringify(list, null, '\t'),
+    '```',
+  ].join();
+}
+
 const COMMANDS = `
 \`\`\`
 $register <receive_address> - Registers receive address to user
@@ -108,16 +127,8 @@ async function onMessage(message) {
       await updateUser(message.author, receiveAddress);
       message.channel.send(`Registered \`${receiveAddress}\` to ${author.toString()}`);
     } else if (content === '$users') {
-      const db = await getDb();
-      const list = {};
-      Object.values(db).forEach((value) => {
-        list[`${value.username}#${value.discriminator}`] = value.receiveAddress;
-      });
-      message.channel.send([
-        '```',
-        JSON.stringify(list, null, '\t'),
-        '```',
-      ].join());
+      const userList = await getUserList();
+      message.channel.send(userList);
     } else if (content === '$help') {
       message.channel.send(COMMANDS);
     } else if (content === '$chia') {
