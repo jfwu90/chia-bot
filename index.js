@@ -25,7 +25,7 @@ async function checkChia() {
       const channel = await client.channels.fetch(process.env.NOTIFY_CHANNEL_ID)
       const user = await client.users.fetch(userIds[i])
 
-      console.log('user.author = ', user.author)
+      console.log(`User won ${xch} Chia`, user)
       channel.send(`${utility.formatDiscordId(userIds[i])} has ${xch} Chia now!`)
 
       // update DB to store user's last chia to prevent repeat messages
