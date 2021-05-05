@@ -57,7 +57,7 @@ async function checkChia() {
       db[user.author.id].chia = chia;
       await fs.writeFile('chia.json', JSON.stringify(db));
     }
-    await sleep(50000);
+    await sleep(5000);
   }
 }
 
@@ -156,7 +156,7 @@ async function start() {
     await client.login(process.env.DISCORD_TOKEN_CHIA)
     client.on('message', onMessage);
     checkChia();
-    setInterval(checkChia, 30 * 1000);
+    setInterval(checkChia, 120 * 1000);
   } catch (err) {
     if (err.code === 'TOKEN_INVALID') {
       console.error('Failed to login to discord.')
