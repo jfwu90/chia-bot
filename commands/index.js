@@ -4,6 +4,8 @@ const utility = require('../lib/utility')
 const fs = require('fs')
 const path = require('path')
 
+const tagIds = new Set(process.env.TAG_IDS.split(',').filter(e => e))
+
 // Load all commands at startup
 const commands = fs.readdirSync(__dirname, { withFileTypes: true })
   .filter(file => /(?<!index)\.js$/.test(file.name) && !file.isDirectory())
@@ -12,11 +14,11 @@ const commands = fs.readdirSync(__dirname, { withFileTypes: true })
 module.exports = (client) => {
   return async function handleMsg(msg) {
     const words = msg.content.match(/^(\S+)(?: (.+))?$/)
-    const args = ((words && words[2]) || '').split(' ').filter(e => !!e)
+    const args = ((words && words[2]) || '').split(' ').filter(e => e)
     const op = args.shift() || '' // operation
 
     // If valid prefix, find matching command and execute
-    if (words && (utility.extractDiscordId(words[1]) === process.env.BOT_ID || words[1] === process.env.PREFIX)) {
+    if (words && (tagIds.has(utility.extractDiscordId(words[1])) || words[1] === process.env.PREFIX)) {
       let cmd
       let defaultCmd
 
