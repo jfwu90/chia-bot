@@ -4,6 +4,7 @@ const db = require('../lib/db')
 const utility = require('../lib/utility')
 
 module.exports = {
+  name: 'wallet',
   default: true,
 
   match (op) {
@@ -11,7 +12,7 @@ module.exports = {
   },
 
   async run ({ channel, author }, args) {
-    const userWallet = await db.getUserWallet(author.id)
+    const userWallet = (await db.getUserWallet(author.id) || {})
 
     const addr = args.length
       ? args[0]
