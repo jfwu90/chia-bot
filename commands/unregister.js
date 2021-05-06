@@ -3,6 +3,7 @@
 const db = require('../lib/db')
 
 module.exports = {
+  name: 'unregister',
   match (op) {
     return op === 'unreg' || op === 'unregister'
   },

@@ -45,7 +45,7 @@ module.exports = (client) => {
         try {
           await cmd.run(msg, args)
         } catch (err) {
-          console.log(`Command [${op}] failed`, err)
+          console.log(`Command [${cmd.name}] failed`, err)
         }
       }
     }

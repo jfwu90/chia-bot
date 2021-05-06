@@ -1,6 +1,7 @@
 'use strict'
 
 module.exports = {
+  name: 'help',
   match (op) {
     return op === 'h' || op === 'help'
   },
